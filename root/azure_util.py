@@ -1,3 +1,5 @@
+import os 
+
 def upload_file_to_container(block_blob_client, container_name, blob_name, file_path):
     """
     Uploads a local file to an Azure Blob storage container.

@@ -69,7 +69,7 @@ if __name__ == '__main__':
         print("Uploadling processed file to Azure...")
         blob_name = '/'.join([blob_path, 'processed/HHDataExport.csv'])
         upload_file_to_container(blob_client, container_name, blob_name, processed_path)
-    except:
+    else:
         print('No data available for that date...')
 
     print("Done!")
