@@ -23,8 +23,8 @@ RUN pip install pyyaml==3.11 requests==2.5.1 selenium==2.52.0 azure-storage==0.3
 
 ENV PYTHONPATH /
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/usr/scripts/entrypoint.sh" ]
 
-CMD [ "python", "-u", "/main.py" ]
+CMD [ "python", "-u", "/usr/scripts/main.py" ]
 
-COPY root /
+COPY root /usr/scripts

@@ -79,7 +79,7 @@ def ec_element_to_be_displayed(selector):
 
 def init(default_timeout=10, screenshots_folder='/screenshots'):
 
-    download_path = os.path.join(os.getcwd(), 'ski_data_download')
+    download_path = os.path.join(os.getcwd(), 'data_download')
     fp = webdriver.FirefoxProfile()
     fp.set_preference("browser.download.folderList",2)
     fp.set_preference("browser.download.manager.showWhenStarting",False)

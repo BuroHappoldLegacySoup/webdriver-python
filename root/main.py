@@ -3,31 +3,6 @@ from time import sleep
 import azure.storage.blob as azureblob
 import os
 
-def query_google(keywords):
-    print("Loading Firefox driver...")
-    driver, waiter, selector, datapath = init()
-
-    print("Fetching google front page...")
-    driver.get("http://google.com")
-
-    print("Taking a screenshot...")
-    waiter.shoot("frontpage")
-
-    print("Typing query string...")
-    selector.get_and_clear("input[type=text]").send_keys(keywords)
-
-    print("Hitting Enter...")
-    selector.get("input[type=submit]").click()
-
-    print("Waiting for results to come back...")
-    waiter.until_display("#ires")
-
-    print
-    print("The top search result is:")
-    print
-    print('    "{}"'.format(selector.get("#ires a").text))
-    print
-
 def login(browser, uname, pword):
     username = browser.find_element_by_xpath('//*[@id="ctl00_MainContent_LoginView_LoginControl_UserName"]')
     password = browser.find_element_by_xpath('//*[@id="ctl00_MainContent_LoginView_LoginControl_Password"]')
@@ -42,7 +17,7 @@ def login(browser, uname, pword):
 def acquire_report(browser, start_date=None):
     from datetime import datetime, timedelta
 
-    if start_date != None:
+    if start_date == None:
         # get the date 2 days ago (safest refresh time)
         start_date = datetime.today() - timedelta(days=2)
 
@@ -77,7 +52,6 @@ def upload_file_to_container(block_blob_client, container_name, blob_name, file_
     :return: A ResourceFile initialized with a SAS URL appropriate for Batch
     tasks.
     """
-
     import datetime
     import azure.storage.blob as azureblob
 
@@ -134,10 +108,14 @@ if __name__ == '__main__':
     driver.get(AMR_address)
     sleep(5)
     print("Downloading ARM data...")
-    blob_path = acquire_report(browser)
-    file_path = 'usr/scripts/root/ski_data_download/AMRDataExport.xls'
-    blob_name = '/'.join([blob_path, 'AMRDataExport.xls'])
-    upload_file_to_container(blob_client, container_name, blob_name, file_path)
+    blob_path = acquire_report(driver)
+    print('Sending data to Azure...')
+    file_path = datapath + '/AMRDataExport.xls'
+    if os.path.isfile(file_path):
+        blob_name = '/'.join([blob_path, 'AMRDataExport.xls'])
+        upload_file_to_container(blob_client, container_name, blob_name, file_path)
+    else:
+        print('No data available for that date...')
 
     # Open HDD
     print("Getting HDD page...")
@@ -145,7 +123,12 @@ if __name__ == '__main__':
     sleep(5)
     print("Downloading HDD data...")
     blob_path = acquire_report(driver)
-    file_path = 'usr/scripts/root/ski_data_download/HHDataExport.xls'
-    blob_name = '/'.join([blob_path, 'HHDataExport.xls'])
-    upload_file_to_container(blob_client, container_name, blob_name, file_path)
+    print('Sending data to Azure...')
+    file_path = datapath + '/HHDataExport.xls'
+    if os.path.isfile(file_path):
+        blob_name = '/'.join([blob_path, 'HHDataExport.xls'])
+        upload_file_to_container(blob_client, container_name, blob_name, file_path)
+    except:
+        print('No data available for that date...')
+
     print("Done!")
