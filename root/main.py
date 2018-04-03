@@ -90,7 +90,7 @@ print("Logging in...")
 login(driver, uname, pword)
 
 if args.start_date and args.end_date:
-    start_date = datetime.strptime(agrs.start_date, '%d/%m/%Y')
+    start_date = datetime.strptime(args.start_date, '%d/%m/%Y')
     end_date = datetime.strptime(args.end_date, '%d/%m/%Y')
     day = timedelta(days=1)
 
