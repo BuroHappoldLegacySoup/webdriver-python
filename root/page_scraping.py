@@ -9,16 +9,11 @@ def login(browser, uname, pword):
 
     login.click()
 
-def acquire_report(browser, start_date=None):
-    from datetime import datetime, timedelta
+def acquire_report(browser, date=None):
 
-    if start_date == None:
-        # get the date 2 days ago (safest refresh time)
-        start_date = datetime.today() - timedelta(days=2)
-
-    day = start_date.strftime('%d')
-    month = start_date.strftime('%m')
-    year = start_date.strftime('%Y')
+    day = date.strftime('%d')
+    month = date.strftime('%m')
+    year = date.strftime('%Y')
 
     start_day = browser.find_element_by_xpath('//*[@id="ctl00_MainContent_ReportFilter1_startDay"]/option[text()={}]'.format(day)).click()
     end_day = browser.find_element_by_xpath('//*[@id="ctl00_MainContent_ReportFilter1_endDay"]/option[text()={}]'.format(day)).click()
@@ -34,4 +29,4 @@ def acquire_report(browser, start_date=None):
 
     EXPORT = browser.find_element_by_xpath('//*[@id="ctl00_MainContent_ReportFilter1_btnGenerateReport"]').click()
 
-    return start_date.strftime('%Y/%m/%d')
+    return date.strftime('%Y/%m/%d')
