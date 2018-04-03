@@ -19,7 +19,9 @@ RUN apt-get update && apt-get install -y \
     libdbus-glib-1-2 \
     libxcomposite1
 
-RUN pip install pyyaml==3.11 requests==2.5.1 selenium==2.52.0 azure-storage==0.36.0
+COPY requirements.txt /
+
+RUN pip install requirements.txt
 
 ENV PYTHONPATH /
 

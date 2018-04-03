@@ -1,0 +1,6 @@
+pyyaml==3.11
+requests==2.5.1
+selenium==2.52.0
+azure-storage==0.36.0
+pandas==0.20.3
+beautifulsoup4==4.6.0
